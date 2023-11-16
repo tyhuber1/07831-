@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Text Encoder/Decoder</title>
+    <script>
+        // Simple Caesar Cipher for demonstration
+        function shiftChar(c, shift) {
+            if (c.match(/[a-z]/i)) {
+                let code = c.charCodeAt(0);
+                let lower = (c == c.toLowerCase());
+                code = ((code - (lower ? 97 : 65) + shift + 26) % 26) + (lower ? 97 : 65);
+                return String.fromCharCode(code);
+            }
+            return c;
+        }
+
+        function encodeText(text, shift) {
+            return text.split('').map(c => shiftChar(c, shift)).join('');
+        }
+
+        function decodeText(encodedText, shift, password) {
+            const correctPassword = "secret"; // Set your password
+            if (password !== correctPassword) {
+                alert("Incorrect password");
+                return "";
+            }
+            return encodedText.split('').map(c => shiftChar(c, -shift)).join('');
+        }
+
+        function handleEncode() {
+            const text = document.getElementById("text").value;
+            const encodedText = encodeText(text, 3); // Shift by 3 for example
+            document.getElementById("text").value = encodedText;
+        }
+
+        function handleDecode() {
+            const encodedText = document.getElementById("text").value;
+            const password = document.getElementById("password").value;
+            const decodedText = decodeText(encodedText, 3, password);
+            document.getElementById("text").value = decodedText;
+        }
+    </script>
+</head>
+<body>
+    <h2>Text Encoder/Decoder</h2>
+    <input type="text" id="text" placeholder="Enter text here">
+    <input type="password" id="password" placeholder="Password">
+    <button onclick="handleEncode()">Encode</button>
+    <button onclick="handleDecode()">Decode</button>
+</body>
+</html>
